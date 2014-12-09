@@ -5,6 +5,7 @@ from Pipeline_Core.Task import Task
 from Pipeline_Core.TaskMaster import TaskMaster
 from subprocess import check_call, PIPE
 from os import path
+import posixpath
 
 
 class HomologyModelingTask(Task):
@@ -24,9 +25,11 @@ class HomologyModelingTask(Task):
         lex = shlex.shlex(
             'moe -load "{script}" -exec "HomologyBatch [\'{input}\']"'.format(
                 script=self.args['svl_script_name'],  # The file will be accessed from the parent dir.
-                input=path.relpath(self.args['input_directory'], start=self.args['svl_directory'])
+                # MOE only accepts POSIX-like file paths as SVL function arguments.
+                input=posixpath.relpath(self.args['input_directory'], start=self.args['svl_directory'])
             )
         )
         lex.whitespace_split = True
+        lex.posix = True
         process_args = list(lex)
         check_call(process_args, stdout=PIPE, cwd=self.args['svl_directory'])
