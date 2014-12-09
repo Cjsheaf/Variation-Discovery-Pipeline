@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<data>
+	<task name="Task 1" type="SequenceVariationTask">
+		<!-- This task has no dependencies. It will be the first task to run. -->
+		
+		<!-- Locations of important files. -->
+		<rscript_filepath>./Variation_Files_L18M_Gen2_100314/Src_Kinase_L18M_100314_Gen2.R</rscript_filepath>
+		<input_directory path="./Variation_Files_L18M_Gen2_100314">
+			<!-- Filenames of all the input files. -->
+			<fasta>L18M_1yol.fst</fasta>
+			<position_matrix>position matrix.csv</position_matrix>
+			<pam250>PAM250.csv</pam250>
+		</input_directory>
+		<output_directory path="./Variation_Files_L18M_Gen2_100314">
+			<!-- Filenames of all the output files. -->
+			<fasta>OUT_TEST.fst</fasta>
+		</output_directory>
+		
+		<!-- Individual parameters. -->
+		<variation_rounds>1</variation_rounds>
+		<num_variations>1</num_variations>
+		<num_offspring>20</num_offspring>
+		<pam_probability>1</pam_probability>
+	</task>
+	
+	<task name="Task 3" type="HomologyModelingTask">
+		<!-- Other tasks this task depends on. These must complete before this task will run. -->
+		<dependency name="Task 1"/>
+		<dependency name="Task 2"/>
+	</task>
+	
+	<task name="Task 2" type="SequenceVariationTask">
+		<!-- This task has no dependencies. It will be the first task to run. -->
+		
+		<!-- Locations of important files. -->
+		<rscript_filepath>./Variation_Files_L18M_Gen2_100314/Src_Kinase_L18M_100314_Gen2.R</rscript_filepath>
+		<input_directory path="./Variation_Files_L18M_Gen2_100314">
+			<!-- Filenames of all the input files. -->
+			<fasta>L18M_1yol.fst</fasta>
+			<position_matrix>position matrix.csv</position_matrix>
+			<pam250>PAM250.csv</pam250>
+		</input_directory>
+		<output_directory path="./Variation_Files_L18M_Gen2_100314">
+			<!-- Filenames of all the output files. -->
+			<fasta>OUT_TEST_2.fst</fasta>
+		</output_directory>
+		
+		<!-- Individual parameters. -->
+		<variation_rounds>1</variation_rounds>
+		<num_variations>1</num_variations>
+		<num_offspring>20</num_offspring>
+		<pam_probability>1</pam_probability>
+	</task>
+</data>
