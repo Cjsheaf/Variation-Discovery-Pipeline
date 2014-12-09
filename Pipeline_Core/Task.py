@@ -1,9 +1,9 @@
 __author__ = 'Christopher Sheaf'
 
-import threading
+from threading import Thread
 
 
-class Task (threading.Thread):
+class Task (Thread):
     def __init__(self, task_name, task_master):
         super(Task, self).__init__()
         self.task_name = task_name

@@ -1,7 +1,6 @@
 __author__ = 'Christopher Sheaf'
 
-import collections
-import time
+from collections import Iterable
 from DependencyGraph import DependencyGraph
 
 
@@ -12,7 +11,7 @@ class TaskMaster:
         self.running_tasks = []
 
     def add_task(self, task):
-        if isinstance(task, collections.Iterable):
+        if isinstance(task, Iterable):
             self.task_list.extend(task)
         else:
             self.task_list.append(task)

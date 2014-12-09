@@ -2,9 +2,9 @@ __author__ = 'Christopher Sheaf'
 
 from Pipeline_Core.Task import Task
 from Pipeline_Core.TaskMaster import TaskMaster
-import shlex
-import subprocess
-import os
+from shlex import shlex
+from subprocess import check_call, PIPE
+from os import path
 
 
 class HomologyModelingTask(Task):

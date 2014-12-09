@@ -4,7 +4,7 @@
 		<!-- This task has no dependencies. It will be the first task to run. -->
 		
 		<!-- Locations of important files. -->
-		<rscript_filepath>./Variation_Files_L18M_Gen2_100314/Src_Kinase_L18M_100314_Gen2.R</rscript_filepath>
+		<rscript_filepath>./Src_Kinase_L18M_100314_Gen2.R</rscript_filepath>
 		<input_directory path="./Variation_Files_L18M_Gen2_100314">
 			<!-- Filenames of all the input files. -->
 			<fasta>L18M_1yol.fst</fasta>
@@ -33,7 +33,7 @@
 		<!-- This task has no dependencies. It will be the first task to run. -->
 		
 		<!-- Locations of important files. -->
-		<rscript_filepath>./Variation_Files_L18M_Gen2_100314/Src_Kinase_L18M_100314_Gen2.R</rscript_filepath>
+		<rscript_filepath>./Src_Kinase_L18M_100314_Gen2.R</rscript_filepath>
 		<input_directory path="./Variation_Files_L18M_Gen2_100314">
 			<!-- Filenames of all the input files. -->
 			<fasta>L18M_1yol.fst</fasta>

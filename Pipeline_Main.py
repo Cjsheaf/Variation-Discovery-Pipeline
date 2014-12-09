@@ -1,7 +1,7 @@
 __author__ = 'Christopher Sheaf'
 
 import sys
-import xml.etree.ElementTree as ETree
+from xml.etree.ElementTree import ElementTree
 from Pipeline_Core.TaskMaster import TaskMaster
 from Pipeline_Tasks.Sequence_Variation import SequenceVariationTask
 from Pipeline_Tasks.Homology_Modeling import HomologyModelingTask
@@ -15,7 +15,7 @@ def main():
     task_list = []
     master = TaskMaster()
 
-    settings_xml = ETree.parse(sys.argv[1])  # Contains all the tasks that need to be run, and their parameters.
+    settings_xml = ElementTree.parse(sys.argv[1])  # Contains all the tasks that need to be run, and their parameters.
     for task_xml in settings_xml.findall('task'):
         task_name = task_xml.get('name')
         if task_xml.get('type') == 'SequenceVariationTask':

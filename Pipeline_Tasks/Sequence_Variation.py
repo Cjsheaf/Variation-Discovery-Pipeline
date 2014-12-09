@@ -2,9 +2,9 @@ __author__ = 'Christopher Sheaf'
 
 from Pipeline_Core.Task import Task
 from Pipeline_Core.TaskMaster import TaskMaster
-import shlex
-import subprocess
-import os
+from shlex import shlex
+from subprocess import check_call, PIPE
+from os import path
 
 
 class SequenceVariationTask(Task):
@@ -18,13 +18,13 @@ class SequenceVariationTask(Task):
 
         input_directory = xml_parameters.find('input_directory')
         in_path = input_directory.get('path')
-        self.args['input_fasta'] = os.path.join(in_path, input_directory.find('fasta').text)
-        self.args['position_matrix'] = os.path.join(in_path, input_directory.find('position_matrix').text)
-        self.args['pam250'] = os.path.join(in_path, input_directory.find('pam250').text)
+        self.args['input_fasta'] = path.join(in_path, input_directory.find('fasta').text)
+        self.args['position_matrix'] = path.join(in_path, input_directory.find('position_matrix').text)
+        self.args['pam250'] = path.join(in_path, input_directory.find('pam250').text)
 
         output_directory = xml_parameters.find('output_directory')
         out_path = output_directory.get('path')
-        self.args['output_fasta'] = os.path.join(out_path, output_directory.find('fasta').text)
+        self.args['output_fasta'] = path.join(out_path, output_directory.find('fasta').text)
 
         self.args['variation_rounds'] = int(xml_parameters.find('variation_rounds').text)
         self.args['num_variations'] = int(xml_parameters.find('num_variations').text)
@@ -45,4 +45,4 @@ class SequenceVariationTask(Task):
                 probability=self.args['pam_probability']
             )
         )
-        subprocess.check_call(process_args)
+        check_call(process_args, stdout=PIPE)
