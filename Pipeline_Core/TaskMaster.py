@@ -1,7 +1,7 @@
 __author__ = 'Christopher Sheaf'
 
 from collections import Iterable
-from DependencyGraph import DependencyGraph
+from Pipeline_Core.DependencyGraph import DependencyGraph
 
 
 class TaskMaster:

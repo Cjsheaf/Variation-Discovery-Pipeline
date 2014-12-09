@@ -1,6 +1,6 @@
 __author__ = 'Christopher Sheaf'
 
-from Task import Task
+from Pipeline_Core.Task import Task
 
 
 class DependencyGraph:

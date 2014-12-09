@@ -1,8 +1,8 @@
 __author__ = 'Christopher Sheaf'
 
+import shlex
 from Pipeline_Core.Task import Task
 from Pipeline_Core.TaskMaster import TaskMaster
-from shlex import shlex
 from subprocess import check_call, PIPE
 from os import path
 
@@ -32,7 +32,7 @@ class SequenceVariationTask(Task):
         self.args['pam_probability'] = int(xml_parameters.find('pam_probability').text)
 
     def run(self):
-        process_args = shlex.split(
+        process_args =shlex.split(
             'Rscript "{script}" "{input}" "{output}" "{matrix}" "{pam250}" {rounds} {variations} {offspring} {probability}'.format(
                 script=self.args['rscript_filepath'],
                 input=self.args['input_fasta'],
@@ -45,4 +45,4 @@ class SequenceVariationTask(Task):
                 probability=self.args['pam_probability']
             )
         )
-        check_call(process_args, stdout=PIPE)
+        check_call(process_args)
