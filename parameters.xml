@@ -27,6 +27,10 @@
 		<!-- Other tasks this task depends on. These must complete before this task will run. -->
 		<dependency name="Task 1"/>
 		<dependency name="Task 2"/>
+		
+		<svl_filepath>../Homology-Batch-Processor/HomologyBatch.svl</svl_filepath>
+		<input_directory path="../Homology-Batch-Processor/Test_Data">
+		</input_directory>
 	</task>
 	
 	<task name="Task 2" type="SequenceVariationTask">
