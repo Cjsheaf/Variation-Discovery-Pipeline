@@ -23,7 +23,7 @@ class HomologyModelingTask(Task):
         lex = shlex.shlex(
             'moe -load "{script}" -exec "HomologyBatch [\'{input}\']"'.format(
                 script=path.basename(self.args['svl_filepath']),  # The file will be accessed from the parent dir.
-                input=self.args['input_directory']
+                input=path.relpath(self.args['input_directory'], start=path.dirname(self.args['input_directory']))
             )
         )
         lex.whitespace_split = True
