@@ -20,10 +20,12 @@ class HomologyModelingTask(Task):
     def run(self):
         # MOE needs to be invoked from the directory containing the SVL scripts, otherwise it can't seem to
         # "find" the other SVL files. It would be nice to eliminate this issue and use absolute paths.
-        process_args = shlex.split(
-            'moe -load "{script}" -exec HomologyBatch [\'{input}\']'.format(
+        lex = shlex.shlex(
+            'moe -load "{script}" -exec "HomologyBatch [\'{input}\']"'.format(
                 script=path.basename(self.args['svl_filepath']),  # The file will be accessed from the parent dir.
                 input=self.args['input_directory']
             )
         )
+        lex.whitespace_split = True
+        process_args = list(lex)
         check_call(process_args, stdout=PIPE, cwd=path.dirname(self.args['input_directory']))
