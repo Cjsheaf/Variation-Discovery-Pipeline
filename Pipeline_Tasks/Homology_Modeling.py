@@ -20,9 +20,9 @@ class HomologyModelingTask(Task):
 
         input_directory = xml_parameters.find('input_directory')
         in_path = input_directory.get('path')
-        self.args['homology_options'] = path.join(in_path, input_directory.find('homology_options').text)
-        self.args['template_file'] = path.join(in_path, input_directory.find('template_file').text)
-        self.args['sequence_file'] = path.join(in_path, input_directory.find('sequence_file').text)
+        self.args['homology_options'] = posixpath.join(in_path, input_directory.find('homology_options').text)
+        self.args['template_file'] = posixpath.join(in_path, input_directory.find('template_file').text)
+        self.args['sequence_file'] = posixpath.join(in_path, input_directory.find('sequence_file').text)
 
     def run(self):
         # MOE needs to be invoked from the directory containing the SVL scripts, otherwise it can't seem to
