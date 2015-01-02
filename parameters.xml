@@ -30,6 +30,9 @@
 		
 		<svl_filepath>../Homology-Batch-Processor/HomologyBatch.svl</svl_filepath>
 		<input_directory path="../Homology-Batch-Processor/Test_Data">
+			<homology_options>homologyoptions.dat</homology_options>
+			<template_file>1j3i_no_nadph.pdb</template_file>
+			<sequence_file>Gen1.fst</sequence_file>
 		</input_directory>
 	</task>
 	
