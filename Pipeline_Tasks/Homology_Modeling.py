@@ -40,8 +40,8 @@ class HomologyModelingTask(Task):
 
         process_args = 'moe -load "{script}" -exec "HomologyBatch_NoGUI [\'{options}\', \'{template}\', \'{sequence}\']"'.format(
             script=self.args['svl_script_name'],  # The file will be accessed from the parent dir.
-            options=posixpath.relpath(self.args['input_directory'], start=self.args['homology_options']),
-            template=posixpath.relpath(self.args['input_directory'], start=self.args['template_file']),
-            sequence=posixpath.relpath(self.args['input_directory'], start=self.args['sequence_file'])
+            options=posixpath.relpath(self.args['svl_directory'], start=self.args['homology_options']),
+            template=posixpath.relpath(self.args['svl_directory'], start=self.args['template_file']),
+            sequence=posixpath.relpath(self.args['svl_directory'], start=self.args['sequence_file'])
         )
         check_call(process_args, stdout=PIPE, shell=True, cwd=self.args['svl_directory'])
