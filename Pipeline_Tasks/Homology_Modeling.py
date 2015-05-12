@@ -2,7 +2,6 @@ __author__ = 'Christopher Sheaf'
 
 import shlex
 from Pipeline_Core.Task import Task
-from Pipeline_Core.TaskMaster import TaskMaster
 from subprocess import check_call, PIPE
 from os import path
 import posixpath
@@ -38,7 +37,7 @@ class HomologyModelingTask(Task):
         #process_args = list(lex)
         #check_call(process_args, stdout=PIPE, cwd=self.args['svl_directory'])
 
-        process_args = 'moebatch -load "{script}" -exec "HomologyBatch_NoGUI [\'{options}\', \'{template}\', \'{sequence}\']"'.format(
+        process_args = 'moebatch -run "{script}" -options "{options}" -template "{template}" -sequence "{sequence}"'.format(
             script=self.args['svl_script_name'],  # The file will be accessed from the parent dir.
             options=posixpath.relpath(self.args['homology_options'], start=self.args['svl_directory']),
             template=posixpath.relpath(self.args['template_file'], start=self.args['svl_directory']),

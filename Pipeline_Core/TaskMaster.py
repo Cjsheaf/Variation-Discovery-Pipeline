@@ -23,7 +23,7 @@ class TaskMaster:
             for task in batch:
                 self.running_tasks.append(task)
                 task.start()
-            for task in self.running_tasks:
+            for task in list(self.running_tasks):  # Iterate over a copy of the list
                 task.join()
                 self.running_tasks.remove(task)
 

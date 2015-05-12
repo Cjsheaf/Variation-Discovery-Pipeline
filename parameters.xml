@@ -1,61 +1,42 @@
 <?xml version="1.0"?>
 <data>
-	<task name="Task 1" type="SequenceVariationTask">
-		<!-- This task has no dependencies. It will be the first task to run. -->
+	<task name="Task 7" type="MockTask">
+		<dependency name="Task 5"/>
+		<dependency name="Task 6"/>
 		
-		<!-- Locations of important files. -->
-		<rscript_filepath>./Src_Kinase_L18M_100314_Gen2.R</rscript_filepath>
-		<input_directory path="./Variation_Files_L18M_Gen2_100314">
-			<!-- Filenames of all the input files. -->
-			<fasta>L18M_1yol.fst</fasta>
-			<position_matrix>position matrix.csv</position_matrix>
-			<pam250>PAM250.csv</pam250>
-		</input_directory>
-		<output_directory path="./Variation_Files_L18M_Gen2_100314">
-			<!-- Filenames of all the output files. -->
-			<fasta>OUT_TEST.fst</fasta>
-		</output_directory>
-		
-		<!-- Individual parameters. -->
-		<variation_rounds>1</variation_rounds>
-		<num_variations>1</num_variations>
-		<num_offspring>20</num_offspring>
-		<pam_probability>1</pam_probability>
+		<run_time>3</run_time>
+	</task>
+
+	<task name="Task 1" type="MockTask">
+		<run_time>2</run_time>
 	</task>
 	
-	<task name="Task 3" type="HomologyModelingTask">
+	<task name="Task 4" type="MockTask">
+		<dependency name="Task 2"/>
+		
+		<run_time>1</run_time>
+	</task>
+	
+	<task name="Task 3" type="MockTask">
 		<!-- Other tasks this task depends on. These must complete before this task will run. -->
 		<dependency name="Task 1"/>
 		<dependency name="Task 2"/>
 		
-		<svl_filepath>../Homology-Batch-Processor/HomologyBatch.svl</svl_filepath>
-		<input_directory path="../Homology-Batch-Processor/Test_Data">
-			<homology_options>homologyoptions.dat</homology_options>
-			<template_file>1j3i_no_nadph.pdb</template_file>
-			<sequence_file>Gen1.fst</sequence_file>
-		</input_directory>
+		<run_time>1</run_time>
 	</task>
 	
-	<task name="Task 2" type="SequenceVariationTask">
-		<!-- This task has no dependencies. It will be the first task to run. -->
+	<task name="Task 6" type="MockTask">
+		<run_time>2</run_time>
+	</task>
+	
+	<task name="Task 2" type="MockTask">
+		<run_time>3</run_time>
+	</task>
+	
+	<task name="Task 5" type="MockTask">
+		<dependency name="Task 3"/>
+		<dependency name="Task 4"/>
 		
-		<!-- Locations of important files. -->
-		<rscript_filepath>./Src_Kinase_L18M_100314_Gen2.R</rscript_filepath>
-		<input_directory path="./Variation_Files_L18M_Gen2_100314">
-			<!-- Filenames of all the input files. -->
-			<fasta>L18M_1yol.fst</fasta>
-			<position_matrix>position matrix.csv</position_matrix>
-			<pam250>PAM250.csv</pam250>
-		</input_directory>
-		<output_directory path="./Variation_Files_L18M_Gen2_100314">
-			<!-- Filenames of all the output files. -->
-			<fasta>OUT_TEST_2.fst</fasta>
-		</output_directory>
-		
-		<!-- Individual parameters. -->
-		<variation_rounds>1</variation_rounds>
-		<num_variations>1</num_variations>
-		<num_offspring>20</num_offspring>
-		<pam_probability>1</pam_probability>
+		<run_time>2</run_time>
 	</task>
 </data>

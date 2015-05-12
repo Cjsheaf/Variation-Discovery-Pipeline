@@ -13,9 +13,6 @@ class Task (Thread):
     def run(self):
         pass  # Exists only to be implemented by subclasses of Task.
 
-    def notify_taskmaster(self, message, value=None):
-        self.task_master.notify(self, message, value)
-
     def depends_on(self, *other_tasks):
         if None in other_tasks:
             return
