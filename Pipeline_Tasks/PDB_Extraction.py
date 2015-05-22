@@ -44,4 +44,4 @@ class PDBExtractionTask(Task):
                     append=self.args['append_filename']
                 )
             )
-            #check_call(process_args, stdout=PIPE)
+            check_call(process_args, stdout=PIPE)

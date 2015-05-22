@@ -2,7 +2,7 @@ __author__ = 'Christopher Sheaf'
 
 import shlex
 from Pipeline_Core.Task import Task
-from subprocess import check_call, PIPE
+from subprocess import check_call, PIPE, CalledProcessError
 from os import path
 import posixpath
 
@@ -23,6 +23,8 @@ class HomologyModelingTask(Task):
         self.args['template_file'] = posixpath.join(in_path, input_directory.find('template_file').text)
         self.args['sequence_file'] = posixpath.join(in_path, input_directory.find('sequence_file').text)
 
+        self.args['outputDir'] = xml_parameters.get('output_directory')
+
     def run(self):
         # MOE needs to be invoked from the directory containing the SVL scripts, otherwise it can't seem to
         # "find" the other SVL files. It would be nice to eliminate this issue and use absolute paths.
@@ -37,10 +39,18 @@ class HomologyModelingTask(Task):
         #process_args = list(lex)
         #check_call(process_args, stdout=PIPE, cwd=self.args['svl_directory'])
 
-        process_args = 'moebatch -run "{script}" -options "{options}" -template "{template}" -sequence "{sequence}"'.format(
+        process_args = 'moebatch -run "{script}" -options "{options}" -template "{template}" -sequence "{sequence}" -out "{outDir}"'.format(
             script=self.args['svl_script_name'],  # The file will be accessed from the parent dir.
             options=posixpath.relpath(self.args['homology_options'], start=self.args['svl_directory']),
             template=posixpath.relpath(self.args['template_file'], start=self.args['svl_directory']),
-            sequence=posixpath.relpath(self.args['sequence_file'], start=self.args['svl_directory'])
+            sequence=posixpath.relpath(self.args['sequence_file'], start=self.args['svl_directory']),
+            outDir=self.args['outputDir']
         )
-        #check_call(process_args, stdout=PIPE, shell=True, cwd=self.args['svl_directory'])
+        try:
+            # This script currently outputs the homology model files in the directory where it was invoked.
+            # Call the script from the output directory.
+            check_call(process_args, stdout=PIPE, shell=True, cwd=self.args['svl_directory'])
+        except CalledProcessError:
+            # For some reason, moebatch running this script seems to return 1 on success.
+            if CalledProcessError.returncode != 1:  # Ignore a return code of 1.
+                raise CalledProcessError

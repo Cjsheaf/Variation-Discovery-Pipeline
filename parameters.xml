@@ -1,42 +1,58 @@
 <?xml version="1.0"?>
 <data>
-	<task name="Task 7" type="MockTask">
-		<dependency name="Task 5"/>
-		<dependency name="Task 6"/>
+	<task name="Task 1" type="SequenceVariationTask">
+		<!-- This task has no dependencies. It will be the first task to run. -->
 		
-		<run_time>3</run_time>
-	</task>
-
-	<task name="Task 1" type="MockTask">
-		<run_time>2</run_time>
+		<!-- Locations of important files. -->
+		<rscript_filepath>./Variation-Discovery-Pipeline/Src_Kinase_L18M_100314_Gen2.R</rscript_filepath>
+		<input_directory path="./Pipeline_Testing/Data">
+			<!-- Filenames of all the input files. -->
+			<fasta>1yol.fst</fasta>
+			<position_matrix>position matrix.csv</position_matrix>
+			<pam250>PAM250.csv</pam250>
+		</input_directory>
+		<output_directory path="./Pipeline_Testing/Data">
+			<!-- Filenames of all the output files. -->
+			<fasta>Pipeline_Test.fst</fasta>
+		</output_directory>
+		
+		<!-- Individual parameters. -->
+		<variation_rounds>1</variation_rounds>
+		<num_variations>1</num_variations>
+		<num_offspring>5</num_offspring>
+		<pam_probability>1</pam_probability>
 	</task>
 	
-	<task name="Task 4" type="MockTask">
-		<dependency name="Task 2"/>
-		
-		<run_time>1</run_time>
-	</task>
-	
-	<task name="Task 3" type="MockTask">
+	<task name="Task 2" type="HomologyModelingTask">
 		<!-- Other tasks this task depends on. These must complete before this task will run. -->
 		<dependency name="Task 1"/>
+		
+		<svl_filepath>./Homology-Batch-Processor/SVL_Code/HomologyBatch.svl</svl_filepath>
+		<input_directory path="./Pipeline_Testing/Data">
+			<homology_options>homologyoptions.dat</homology_options>
+			<template_file>1yol.pdb</template_file>
+			<sequence_file>Pipeline_Test.fst</sequence_file>
+		</input_directory>
+	</task>
+	
+	<task name="Task 3" type="PDBExtractionTask">
+		<!-- Other tasks this task depends on. These must complete before this task will run. -->
 		<dependency name="Task 2"/>
 		
-		<run_time>1</run_time>
-	</task>
-	
-	<task name="Task 6" type="MockTask">
-		<run_time>2</run_time>
-	</task>
-	
-	<task name="Task 2" type="MockTask">
-		<run_time>3</run_time>
-	</task>
-	
-	<task name="Task 5" type="MockTask">
-		<dependency name="Task 3"/>
-		<dependency name="Task 4"/>
+		<!-- Locations of important files. -->
+		<svl_filepath>./Homology-Batch-Processor/SVL_Code/MDB_to_PDB.svl</svl_filepath>
+		<input_directory path="./Pipeline_Testing/Output">
+			<!-- All files in the input directory that match this pattern will be processed.
+			Matching is done via UNIX-like shell wildcards. Example: '*.mdb' will match any
+			file ending in '.mdb', such as 'model_#3.mdb'-->
+			<pattern>*.mdb</pattern>
+		</input_directory>
+		<output_directory path="./Pipeline_Testing/Output">
+			<!-- Filenames of all the output files. -->
+			<pdb_name>out.pdb</pdb_name>
+			<append_mdb>append.mdb</append_mdb>
+		</output_directory>
 		
-		<run_time>2</run_time>
+		<!-- This task has no individual parameters. -->
 	</task>
 </data>

@@ -44,4 +44,4 @@ class SequenceVariationTask(Task):
                 probability=self.args['pam_probability']
             )
         )
-        #check_call(process_args, stdout=PIPE)
+        check_call(process_args, stdout=PIPE)
