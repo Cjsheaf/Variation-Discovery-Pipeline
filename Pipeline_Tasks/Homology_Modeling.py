@@ -43,4 +43,4 @@ class HomologyModelingTask(Task):
             template=posixpath.relpath(self.args['template_file'], start=self.args['svl_directory']),
             sequence=posixpath.relpath(self.args['sequence_file'], start=self.args['svl_directory'])
         )
-        check_call(process_args, stdout=PIPE, shell=True, cwd=self.args['svl_directory'])
+        #check_call(process_args, stdout=PIPE, shell=True, cwd=self.args['svl_directory'])

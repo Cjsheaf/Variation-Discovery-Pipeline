@@ -1,7 +1,7 @@
 __author__ = 'Cjsheaf'
 
 import shlex
-from Pipeline_Core import Task
+from Pipeline_Core.Task import Task
 from subprocess import check_call, PIPE
 from os import path, listdir
 from fnmatch import fnmatch
