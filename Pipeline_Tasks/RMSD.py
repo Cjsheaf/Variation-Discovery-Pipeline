@@ -4,28 +4,24 @@ import shlex
 from Pipeline_Core.Task import Task
 from subprocess import check_call, PIPE, CalledProcessError
 from os import path, listdir
-from fnmatch import fnmatch
 import posixpath
+from fnmatch import fnmatch
 
 
-class PDBExtractionTask(Task):
+class RMSDTask(Task):
     def __init__(self, task_name, task_master, xml_parameters):
-        super(PDBExtractionTask, self).__init__(task_name, task_master)
+        super(RMSDTask, self).__init__(task_name, task_master)
         self.args = {}
         self.input_files = []
         self.parse_xml_parameters(xml_parameters)
 
     def parse_xml_parameters(self, xml_parameters):
         self.args['svl_filepath'] = xml_parameters.find('svl_filepath').text
+        self.args['template_filepath'] = xml_parameters.find('template_filepath').text
 
         input_directory = xml_parameters.find('input_directory')
-        self.args['input_path'] = input_directory.get('path')
+        in_path = input_directory.get('path')
         self.args['input_pattern'] = input_directory.find('pattern').text
-
-        output_directory = xml_parameters.find('output_directory')
-        out_path = output_directory.get('path')
-        # TODO: Make 'append_filename' optional.
-        self.args['append_filename'] = posixpath.join(out_path, output_directory.find('append_mdb').text)
 
     def collect_input_files(self):
         for file in listdir(self.args['input_path']):
@@ -37,11 +33,10 @@ class PDBExtractionTask(Task):
 
         for input_file in self.input_files:
             process_args = shlex.split(
-                'moebatch -run "{script}" -mdb "{input}" -pdb "{output}" -append "{append}"'.format(
+                'moebatch -run "{script}" {template} {other}'.format(
                     script=self.args['svl_filepath'],
-                    input=input_file,
-                    output=posixpath.splitext(input_file)[0] + '.pdb',
-                    append=self.args['append_filename']
+                    template=self.args['template_filepath'],
+                    other=input_file
                 )
             )
             try:

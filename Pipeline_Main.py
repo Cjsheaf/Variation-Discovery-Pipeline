@@ -8,6 +8,8 @@ from Pipeline_Tasks.Homology_Modeling import HomologyModelingTask
 from Pipeline_Tasks.Mock_Task import MockTask
 from Pipeline_Tasks.PDB_Extraction import PDBExtractionTask
 from Pipeline_Tasks.Docking import DockingTask
+from Pipeline_Tasks.RMSD import RMSDTask
+from playdoh import *
 
 
 def find_matching_task(task_name, task_list):
@@ -49,6 +51,9 @@ def main():
     for task_xml in settings_xml.findall('task'):
         task_name = task_xml.get('name')
         task_type = task_xml.get('type')
+
+        # At some point, it would be nice to replace this if-block with something that uses
+        # reflection to find the appropriately-named Task class.
         if task_type == 'MockTask':
             task_list.append(MockTask(task_name, master, task_xml))
         elif task_type == 'SequenceVariationTask':
@@ -59,6 +64,8 @@ def main():
             task_list.append(PDBExtractionTask(task_name, master, task_xml))
         elif task_type == 'DockingTask':
             task_list.append(DockingTask(task_name, master, task_xml))
+        elif task_type == 'RMSDTask':
+            task_list.append(RMSDTask(task_name, master, task_xml))
 
     setup_task_dependencies(task_list, settings_xml)
     master.add_task(task_list)

@@ -23,7 +23,7 @@ class HomologyModelingTask(Task):
         self.args['template_file'] = posixpath.join(in_path, input_directory.find('template_file').text)
         self.args['sequence_file'] = posixpath.join(in_path, input_directory.find('sequence_file').text)
 
-        self.args['outputDir'] = xml_parameters.get('output_directory')
+        self.args['outputDir'] = xml_parameters.find('output_directory').text
 
     def run(self):
         # MOE needs to be invoked from the directory containing the SVL scripts, otherwise it can't seem to
@@ -44,13 +44,13 @@ class HomologyModelingTask(Task):
             options=posixpath.relpath(self.args['homology_options'], start=self.args['svl_directory']),
             template=posixpath.relpath(self.args['template_file'], start=self.args['svl_directory']),
             sequence=posixpath.relpath(self.args['sequence_file'], start=self.args['svl_directory']),
-            outDir=self.args['outputDir']
+            outDir=posixpath.relpath(self.args['outputDir'], start=self.args['svl_directory'])
         )
         try:
             # This script currently outputs the homology model files in the directory where it was invoked.
             # Call the script from the output directory.
             check_call(process_args, stdout=PIPE, shell=True, cwd=self.args['svl_directory'])
-        except CalledProcessError:
-            # For some reason, moebatch running this script seems to return 1 on success.
-            if CalledProcessError.returncode != 1:  # Ignore a return code of 1.
-                raise CalledProcessError
+        except CalledProcessError as e:
+            # For some reason, moebatch seems to return 1 on success.
+            if e.returncode != 1:  # Ignore a return code of 1.
+                raise e
