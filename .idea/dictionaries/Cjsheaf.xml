@@ -2,6 +2,7 @@
   <dictionary name="Cjsheaf">
     <words>
       <w>filepath</w>
+      <w>rmsd</w>
     </words>
   </dictionary>
 </component>

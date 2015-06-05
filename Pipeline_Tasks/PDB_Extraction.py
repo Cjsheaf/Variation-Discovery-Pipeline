@@ -47,6 +47,6 @@ class PDBExtractionTask(Task):
             try:
                 check_call(process_args, stdout=PIPE)
             except CalledProcessError as e:
-                # For some reason, moebatch seems to return 1 on success.
+                # For some reason, moebatch seems to always return 1.
                 if e.returncode != 1:  # Ignore a return code of 1.
                     raise e

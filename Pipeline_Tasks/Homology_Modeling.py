@@ -51,6 +51,6 @@ class HomologyModelingTask(Task):
             # Call the script from the output directory.
             check_call(process_args, stdout=PIPE, shell=True, cwd=self.args['svl_directory'])
         except CalledProcessError as e:
-            # For some reason, moebatch seems to return 1 on success.
+            # For some reason, moebatch seems to always return 1.
             if e.returncode != 1:  # Ignore a return code of 1.
                 raise e
