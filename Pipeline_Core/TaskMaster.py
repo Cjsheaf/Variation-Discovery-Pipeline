@@ -2,13 +2,15 @@ __author__ = 'Christopher Sheaf'
 
 from collections import Iterable
 from Pipeline_Core.DependencyGraph import DependencyGraph
+from Pipeline_Core.Results_Writer import ResultsWriter
 
 
 class TaskMaster:
-    def __init__(self):
+    def __init__(self, results_filename):
         self.task_list = []
         self.dependency_graph = None
         self.running_tasks = []
+        self.results_writer = ResultsWriter(results_filename)
 
     def add_task(self, task):
         if isinstance(task, Iterable):
@@ -26,6 +28,9 @@ class TaskMaster:
             for task in list(self.running_tasks):  # Iterate over a copy of the list
                 task.join()
                 self.running_tasks.remove(task)
+
+    def get_results_writer(self):
+        return self.results_writer
 
     # The notifier is a reference to the caller of this method. The message denotes what
     # event has occurred, and value (optional) is message-dependent (E.G: A message of

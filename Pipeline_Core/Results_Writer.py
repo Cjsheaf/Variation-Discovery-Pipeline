@@ -21,13 +21,13 @@ class ResultsWriter:
             self.entries[entry_name] = Entry(entry_name)
         self.entries.rmsd = rmsd
 
-    def put_compound_scores(self, entry_name, compound_name, scores):
-        """ Argument 'scores' should be a 5-item tuple (or any iterable) containing numbers. """
-        if len(scores) is not 5:
+    def put_compound_scores(self, entry_name, scores):
+        """ Argument 'scores' should be a 9-item tuple or list. """
+        if len(scores) is not 9:
             raise ValueError(
                 'Attempted to save results for a compound "{compound}" in entry "{entry}"'
-                'with {num_scores} number of scores. Expected 5 scores.'.format(
-                    compound=compound_name,
+                'with {num_scores} number of results. Expected 9 results.'.format(
+                    compound=scores(0),
                     entry=entry_name,
                     num_scores=len(scores)
                 )
@@ -35,8 +35,12 @@ class ResultsWriter:
 
         if self.entries.get(entry_name) is None:
             self.entries[entry_name] = Entry(entry_name)
+        self.entries[entry_name].compounds.append(
+            Compound(scores[1], scores[2], scores[3], scores[4], scores[5], scores[6], scores[7],
+                     scores[8], scores[9])
+        )
 
-    def sanity_check_entry(self):
+    def _sanity_check_entry(self):
         for e in self.entries:
             if e.rmsd is None:
                 raise RuntimeError('Entry "{entry}" has no RMSD!'.format(entry=e.name))
@@ -50,26 +54,34 @@ class ResultsWriter:
     def write_results(self):
         csv_file = open(self.csv_filename, 'w', newline='')
         writer = csv.writer(self.csv_file)
+        writer.writerow('name', 'rmsd', 'compound', 'rseq', 'mseq', 'rmsd_refine', 'e_conf',
+                        'e_place', 'e_score1', 'e_score2', 'e_refine')
+
+        for e in self.entries:
+            writer.writerow(e.name, e.rmsd)
+            for c in e.compounds:
+                writer.writerow('', '', c.name, c.rseq, c.mseq, c.rmsd_refine, c.e_conf, c.e_place,
+                                c.e_score1, c.e_score2, c.e_refine)
 
 
 class Entry:
     def __init__(self, name):
         self.name = name
         self.rmsd = None
-        self.compounds = {}
+        self.compounds = []
 
     def add_compound(self, compound_name, compound):
         self.compounds[compound_name] = compound
 
 
 class Compound:
-    def __init__(self, name):
+    def __init__(self, name, rseq, mseq, rmsd_refine, e_conf, e_place, e_score1, e_score2, e_refine):
         self.name = name
-        self.rseq = None
-        self.mseq = None
-        self.rmsd_refine = None
-        self.e_conf = None
-        self.e_place = None
-        self.e_score1 = None
-        self.e_score2 = None
-        self.e_refine = None
+        self.rseq = rseq
+        self.mseq = mseq
+        self.rmsd_refine = rmsd_refine
+        self.e_conf = e_conf
+        self.e_place = e_place
+        self.e_score1 = e_score1
+        self.e_score2 = e_score2
+        self.e_refine = e_refine

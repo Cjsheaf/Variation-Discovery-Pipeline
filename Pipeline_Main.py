@@ -52,7 +52,6 @@ def main():
         exit()
 
     task_list = []
-    master = TaskMaster()
 
     settings_xml = ETree.parse(sys.argv[1])  # Contains all the tasks that need to be run, and their parameters.
     results_csv = sys.argv[2]
@@ -64,6 +63,8 @@ def main():
         overwrite_msg = 'The file: "{csv}" already exists. Overwrite? y/N?'.format(csv=results_csv)
         if not confirm(prompt=overwrite_msg, resp=False):  # Default to False
             exit()
+
+    master = TaskMaster(results_csv)
 
     for task_xml in settings_xml.findall('task'):
         task_name = task_xml.get('name')
@@ -88,6 +89,7 @@ def main():
     master.add_task(task_list)
 
     master.run_tasks()
+    master.get_results_writer().write_results()
 
 if __name__ == '__main__':
     main()
